@@ -10,7 +10,7 @@ async fn main() {
 
     // Send GET request
     let response = client
-        .get(url)
+        .post(url)
         .header(ACCEPT, "application/json")
         .header(AUTHORIZATION, format!("Bearer {}", token))
         .send()
