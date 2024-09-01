@@ -1,11 +1,11 @@
 use reqwest::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
 use serde_json::json;
+use reqwest::Client;
 
-#[tokio::main]
-async fn main() {
+fn main() {
     let url = "https://x.api.golem.cloud/api/v3/user";
 
-    let client = reqwest::Client::new();
+    let client = reqwest::blocking::Client::new();
 
     // JSON body
     let json_body = json!({
@@ -18,13 +18,12 @@ async fn main() {
         .post(url)
         .header(ACCEPT, "application/json")
         .json(&json_body)
-        .send()
-        .await;
+        .send();
 
     match response {
         Ok(response) => {
             if response.status().is_success() {
-                let id_out_result = response.text().await;
+                let id_out_result = response.text();
                 match id_out_result {
                     Ok(id_out) => {
                         println!("Response ID: {}", id_out);
